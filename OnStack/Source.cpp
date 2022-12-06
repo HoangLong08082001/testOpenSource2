@@ -61,6 +61,29 @@ void xuat(QUEUE q)
 	}
 }
 
+int DeQueue(QUEUE& q)
+{
+	if (!Empty(q))
+	{
+		if (q.front == q.rear)
+			Init(q);
+		else {
+			int t = q.elem[q.front];
+			q.front = q.front + 1;
+			return t;
+		}
+	}
+	return 0;
+}
+int getFront(QUEUE &q)
+{
+	if (!Empty(q))
+	{
+		int t = q.elem[q.front];
+		return t;
+	}
+	return 0;
+}
 void main()
 {
 	QUEUE q;
@@ -68,5 +91,10 @@ void main()
 	nhap(q);
 	cout << "\nQueue sau khi nhap la: " << endl;
 	xuat(q);
+	cout << "\nPhan tu dau cua Queue la: " << getFront(q) << endl;
+	DeQueue(q);
+	cout << "\nQueue sau khi lay ra mot phan tu nam o dau la: " << endl;
+	xuat(q);
+	cout << "\nPhan tu dau cua Queue la: " << getFront(q) << endl;
 	system("pasue");
 }
