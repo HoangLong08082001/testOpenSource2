@@ -1,77 +1,72 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
+
 #define MAX 100
-struct STACK {
-	int sp;
+struct QUEUE {
 	int elem[MAX];
+	int front;
+	int rear;
 };
-void init(STACK& s)
+void Init(QUEUE& q)
 {
-	s.sp = -1;
+	q.front = -1;
+	q.rear = -1;
 }
-int empty(STACK s)
+int Empty(QUEUE q)
 {
-	return s.sp == -1;
+	return q.front == -1 ? 1 : 0;
 }
-int Full(STACK s)
+int Full(QUEUE q)
 {
-	return s.sp == MAX - 1;
+	return (q.rear - q.front == MAX - 1);
 }
-void push(STACK& s, int x)
+int enQueue(QUEUE& q, int x)
 {
-	if (!Full(s))
+	if (!Full(q))
 	{
-		s.sp++;
-		s.elem[s.sp] = x;
+		if (q.front == -1)
+			q.front = 0;
+		else if(q.rear == MAX -1){
+			for (int i = q.front; i <= q.front; i++)
+			{
+				q.elem[i - q.front] = q.elem[i];
+			}
+			q.rear = MAX - 1 - q.front;
+			q.front = 0;
+		}
+		q.rear++;
+		q.elem[q.rear] = x;
+		return q.rear;
 	}
+	return 0;
 }
-void nhap(STACK& s)
+
+void nhap(QUEUE &q)
 {
 	int x;
 	while (1)
 	{
-		cout << "Nhap du lieu vao stack: ";
+		cout << "\nNhap du lieu vao Queue(nhap -99 de dung): ";
 		cin >> x;
 		if (x == -99)
 			break;
-		push(s, x);
+		enQueue(q, x);
 	}
 }
-void xuat(STACK s)
+void xuat(QUEUE q)
 {
-	for (int i = s.sp; i >= 0; i--)
+	for (int i = q.front; i <= q.rear; i++)
 	{
-		cout << s.elem[i] << "\n";
+		cout << q.elem[i] << "\t";
 	}
 }
-
-int pop(STACK& s)
-{
-	if (!Full(s))
-		return s.elem[s.sp--];
-	return 0;
-}
-int top(STACK& s)
-{
-	if (!Full(s))
-	{
-		return s.elem[s.sp];
-	}
-	return 0;
-}
-
 
 void main()
 {
-	STACK s;
-	init(s);
-	nhap(s);
-	cout << "\nStack sau khi nhap la: " << endl;
-	xuat(s);
-	cout << "\nGia tri ban dau cua stack la: " << top(s);
-	pop(s);
-	cout << "\nStack sau khi lay gia tri dau la: " << endl;
-	xuat(s);
-	cout << "\nGia tri ban dau cua stack la: " << top(s);
+	QUEUE q;
+	Init(q);
+	nhap(q);
+	cout << "\nQueue sau khi nhap la: " << endl;
+	xuat(q);
 	system("pasue");
 }
